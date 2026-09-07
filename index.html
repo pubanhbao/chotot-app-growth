@@ -88,6 +88,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
    alone on its own row. Below 1200px go to 2 rows of 4 instead of squeezing. */
 .kpi-grid.kpi-8 { grid-template-columns: repeat(8, 1fr); }
 @media (max-width: 1200px) { .kpi-grid.kpi-8 { grid-template-columns: repeat(4, 1fr); } }
+.kpi-grid.kpi-10 { grid-template-columns: repeat(10, 1fr); }
+@media (max-width: 1200px) { .kpi-grid.kpi-10 { grid-template-columns: repeat(5, 1fr); } }
 .up { color: #10b981; } .down { color: #ef4444; }
 
 /* CARDS & TABLES */
@@ -553,16 +555,17 @@ canvas { max-height: 500px; }
   <div class="section-title">6. Detail Camp Performance — Growth Team (App)</div>
   <div class="section-subtitle">
     Performance từng campaign của <strong>8 ad account team Growth, phase App</strong> (FB: Chotot_growth_sgd, Chotot_pty_app, Chotot_job_app, Chotot_veh_app · GG: Chotot_app_pty, Chotot_app_veh, Chotot_app_job, Chotot_Growth_New)<br>
-    <span style="color:#9ca3af">Cost lấy từ sheet <em>raw_total</em> (phase install + activate) · <strong>Install lấy từ Airbridge</strong> (<em>airbridge_attributed_impression_raw</em>) · D0/D1/D7 &amp; Lead 7d từ <em>retention_mapping_activation_by_source_campaign</em> · DAU &amp; Save ad in D0 từ <em>new_user_adopt_activate</em> (<code>save_ad_d0_users</code>) · cộng theo campaign name qua mọi channel, join bằng campaign name</span><br>
+    <span style="color:#9ca3af">Cost lấy từ sheet <em>raw_total</em> (phase install + activate) · <strong>Install lấy từ Airbridge</strong> (<em>airbridge_attributed_impression_raw</em>) · D0/D1/D7 &amp; Lead 7d (user) từ <em>retention_mapping_activation_by_source_campaign</em> · <strong>Lead event 7d</strong> (lượt) từ <em>retention_activation_core_event_by_source_channel</em> (<code>SUM(lead_7d)</code>) · DAU &amp; Save ad in D0 từ <em>new_user_adopt_activate</em> (<code>save_ad_d0_users</code>) · cộng theo campaign name qua mọi channel, join bằng campaign name</span><br>
     <span style="color:#9ca3af;font-size:11px"><em>Đổi từ 08/2026:</em> cột <strong>Install</strong> (và CPI) trước đây lấy từ sheet <em>raw_total</em>, tức là số của <strong>ads manager</strong> từng nền tảng; nay lấy từ <strong>Airbridge</strong> để cả trang dùng chung một cách attribution. Hai nguồn <em>không</em> lệch đều nhau: tổng 27 campaign tháng 8 gần như bằng nhau (69.334 so với 69.473, −0,2%), phần lớn campaign Google trong sheet thấp hơn Airbridge vài %, nhưng hai campaign Facebook <code>..._2026theme_targeting</code> và <code>..._2026theme</code> lại cao gấp đôi (2.244 so với 1.124 · 1.905 so với 820). Cost giữ nguyên từ sheet vì đó là tiền thật và còn phải khớp với tab <em>target</em>. Campaign nào Airbridge không có dòng thì Install để <strong>—</strong>, không lấy lại số ads manager.</span><br>
     <span style="color:#9ca3af;font-size:11px">Install của mỗi campaign chỉ cộng <strong>đúng những ngày mà campaign đó có dòng cost trong sheet</strong> — không cộng cả tháng. Cost lấy ngày nào thì Install lấy đúng ngày đó, nên CPI luôn là cùng một khoảng thời gian. Cần vậy vì cửa sổ ngày của sheet khác nhau theo từng campaign chứ không chỉ theo tháng: tháng 3 các dòng pty lệch install 2,4–3,0x thì <em>cost cũng lệch</em> 1,7–2,5x cùng chiều, còn các dòng job khớp cả hai trong 1% — dấu hiệu sheet thiếu ngày, không phải khác cách attribution. Sau khi map theo ngày, tháng 3 từ +59,4% xuống <strong>+20,2%</strong>, tháng 8 còn +1,1%. Tháng 1 vẫn +42,2% vì lý do khác: các dòng <code>digital_activate_install7d_*</code> là buy <em>phase activate</em>, cột install trong sheet là số <em>optimisation event</em> của nền tảng chứ không phải install — Airbridge cao hơn 2,3–3,1x ở đây là đúng.</span><br>
     <span style="color:#9ca3af;font-size:11px"><em>Đổi từ 21/08/2026:</em> bảng <em>new_user_adopt_activate</em> được DA build lại — <strong>đã có channel Facebook</strong>, nên campaign FB từ nay có Save ad in D0 &amp; % Save ad (trước đây trống). Cùng lúc đó cột <code>adopt_users</code> đổi tên thành <code>save_ad_d0_users</code> và <code>report_date</code> đổi nghĩa từ <em>ngày cài + 7</em> thành <em>đúng ngày cài</em>; hai ngày 22–23/08 mục này chết vì đổi tên cột nên toàn bộ mục 6 giữ lại số cũ của 19/08 (xem ghi chú "data đến" ở đầu trang). Số tuyệt đối DAU / Save ad có xê dịch vài % đến 20% so với trước vì bảng mới attribute lại, nhưng <strong>% Save ad gần như không đổi</strong> (lệch &lt;0,4 điểm % ở mọi dòng kiểm tra). Dấu <strong>*</strong> = cohort chưa chín đủ 7 ngày nên số tuyệt đối còn thiếu (tỉ lệ % vẫn đúng); dấu này <strong>tự mất</strong> khi cohort đủ 7 ngày, không cần chỉnh tay.</span><br>
     <span style="color:#9ca3af;font-size:11px"><em>Đổi từ 27/08/2026:</em> cột <strong>Ch</strong> (FB/GG) đã thay bằng cột <strong>Status</strong> — vẫn lọc được theo channel bằng nút <em>Channel</em> ở trên. Không nguồn nào bọn mình đọc được từ CI có field status thật của ads manager (sheet không có cột này, Airbridge và các bảng BigQuery cũng không), nên status <strong>suy ra từ chi phí</strong>: campaign có spend trong <em>ngày mới nhất Airbridge có data</em> thì là <strong>Đang chạy</strong>, không có thì <strong>Tắt DD/MM</strong> = ngày cuối cùng còn tiêu tiền. Dùng cost của Airbridge chứ không dùng sheet vì Airbridge sớm hơn sheet ~2–3 ngày (sáng 27/08: Airbridge đã có 26/08, sheet mới tới 24/08). Hai lưu ý: campaign <em>bật</em> trong platform nhưng không tiêu tiền (hết budget, không deliver) sẽ hiện là tắt; và campaign vừa tắt sáng nay thì tới lần update sau mới đổi. Status là trạng thái <strong>hiện tại</strong>, giống nhau ở mọi tháng — xem dòng tháng 3 vẫn biết campaign đó giờ còn sống hay không.</span><br>
     <span style="color:#9ca3af;font-size:11px"><strong>Lead 7d (user)</strong> = số <em>user</em> mới từ campaign đó có liên hệ với người bán <strong>trong 7 ngày kể từ ngày cài</strong>, cộng theo khoảng thời gian đang chọn. Tính <strong>mọi ngành</strong>, không riêng ngành đã mua campaign: user cài từ campaign job rồi đi liên hệ tin gds vẫn được đếm. <em>Đổi từ 08/2026:</em> cột này trước đây đếm <em>lượt</em> liên hệ trong ngày cài (D0); nay đếm <em>người</em> trong 7 ngày — cùng cột <code>user_1lead_7d</code> mà mục 3 và 4 đang dùng, nên cả trang giờ khớp nhau. Số tổng <strong>thấp hơn ~14%</strong> so với cách cũ vì đổi đơn vị lượt→người ăn nhiều hơn nới cửa sổ D0→7 ngày, và Cost/Lead tăng tương ứng ~16%.</span>
+    <span style="color:#9ca3af;font-size:11px"><em>Đổi từ 09/2026:</em> cột <strong>Cost/Lead 7d</strong> đổi tên thành <strong>Cost/User</strong> cho đúng bản chất — mẫu số là <em>người</em> (user_1lead_7d), không phải lượt. Thêm hai cột mới: <strong>Lead event 7d</strong> = tổng <em>lượt</em> liên hệ trong 7 ngày (<code>SUM(lead_7d)</code> từ <em>retention_activation_core_event_by_source_channel</em>, bảng ở grain per-user nên lead_7d là số đếm cộng được), và <strong>Cost/Lead</strong> = cost / lượt. Vì sao phải lấy từ bảng khác: ở bảng mapping cũ, <code>lead_7d</code> là số <em>trung bình</em> (FLOAT) cộng không có nghĩa, còn <code>lead</code> chỉ đếm lượt trong ngày cài (D0) — không có cột lượt-7-ngày cộng được. Cả Lead event 7d và Cost/Lead dùng cùng cửa sổ 7 ngày và cùng cách trim cost như Cost/User. Lưu ý: số lượt còn lẫn user bot/outlier (1 clientId từng có &gt;1.200 lượt/7 ngày) nên đọc Cost/Lead cùng với Cost/User.</span>
     <span style="color:#9ca3af;font-size:11px">Hai cột <strong>User LH ngành</strong> và <strong>Cost/User LH ngành</strong> đã <strong>gỡ bỏ 08/2026</strong>. Chúng chỉ đo được <em>trong ngày cài (D0)</em>, để cạnh cột Lead 7d thì mời gọi đúng phép chia sai — lấy D0 chia 7 ngày ra tỷ trọng đúng ngành thấp giả. Bảng nguồn <em>không có</em> cột 7 ngày tách theo ngành: chỉ <code>dau_lead</code> mới thật sự tách được, còn <code>user_1lead_7d</code> khi tách theo ngành là đếm user của ngành đó có liên hệ ở <strong>bất kỳ ngành nào</strong> (bằng chứng: bucket <em>other</em> có <code>dau_lead</code> = 0 suốt 221 ngày / 392.576 user, nhưng vẫn có 28.711 <code>user_1lead_7d</code>). Nguồn thay thế <em>traffic_lead_detail</em> thì không có campaign Facebook nào. Muốn có lại cột này cần DA cấp bảng mới, không phải đổi câu query.</span>
   </div>
 
-  <div class="kpi-grid kpi-8" id="cd-kpis">
+  <div class="kpi-grid kpi-10" id="cd-kpis">
     <div class="kpi-card"><div class="kpi-label">Cost</div><div class="kpi-value" id="kpi-cd-cost">—</div><div class="kpi-sub" id="kpi-cd-cost-sub">—</div></div>
     <div class="kpi-card"><div class="kpi-label">Install</div><div class="kpi-value" id="kpi-cd-install">—</div><div class="kpi-sub">Từ Airbridge</div></div>
     <div class="kpi-card"><div class="kpi-label">CPI (blended)</div><div class="kpi-value" id="kpi-cd-cpi">—</div><div class="kpi-sub">Cost / Install</div></div>
@@ -570,7 +573,9 @@ canvas { max-height: 500px; }
     <div class="kpi-card"><div class="kpi-label">RR D1</div><div class="kpi-value" id="kpi-cd-rr1">—</div><div class="kpi-sub" id="kpi-cd-rr1-sub">D1 / D0</div></div>
     <div class="kpi-card"><div class="kpi-label">% Save ad</div><div class="kpi-value" id="kpi-cd-save">—</div><div class="kpi-sub" id="kpi-cd-save-sub">Save ad in D0 / DAU</div></div>
     <div class="kpi-card"><div class="kpi-label">Lead 7d (user)</div><div class="kpi-value" id="kpi-cd-lead">—</div><div class="kpi-sub" id="kpi-cd-lead-sub">—</div></div>
-    <div class="kpi-card"><div class="kpi-label">Cost/Lead 7d (blended)</div><div class="kpi-value" id="kpi-cd-cpl">—</div><div class="kpi-sub" id="kpi-cd-cpl-sub">Cost / Lead 7d</div></div>
+    <div class="kpi-card"><div class="kpi-label">Cost/User (blended)</div><div class="kpi-value" id="kpi-cd-cpl">—</div><div class="kpi-sub" id="kpi-cd-cpl-sub">Cost / User 7d</div></div>
+    <div class="kpi-card"><div class="kpi-label">Lead event 7d</div><div class="kpi-value" id="kpi-cd-leadev">—</div><div class="kpi-sub" id="kpi-cd-leadev-sub">—</div></div>
+    <div class="kpi-card"><div class="kpi-label">Cost/Lead (event)</div><div class="kpi-value" id="kpi-cd-cple">—</div><div class="kpi-sub" id="kpi-cd-cple-sub">Cost / Lead event 7d</div></div>
   </div>
 
   <div class="card" style="margin-bottom:16px">
@@ -1956,7 +1961,7 @@ const _cdState = { month: 'all', channel: 'all', vertical: 'all', sort: 'cost', 
 // cohort, so the volume test has to be applied to the denominator that was
 // actually used. Same threshold — the point is "enough users to conclude
 // anything", and that has not changed.
-const _CD_MIN = { install: 10, d0: 30, d0_d1: 30, d0_d7: 30, dau: 30, lead: 10 };
+const _CD_MIN = { install: 10, d0: 30, d0_d1: 30, d0_d7: 30, dau: 30, lead: 10, lead_event: 20 };
 function _cdEnough(r, field) { return (r[field] || 0) >= _CD_MIN[field]; }
 // yyyy-mm-dd → dd/mm/yyyy, for dates read by Vietnamese-speaking users.
 const _dmyCd = s => s ? s.split('-').reverse().join('/') : '';
@@ -2444,12 +2449,13 @@ function renderCampDetail() {
   if (cdQ.length) rows = rows.filter(r=>_cdMatch(r, cdQ));
 
   const SORTS = {cost:'cost', install:'install', cpi:'cpi', d0:'d0', rr_d1:'rr_d1',
-                 save_ad_rate:'save_ad_rate', lead:'lead', cpl:'cpl'};
+                 save_ad_rate:'save_ad_rate', lead:'lead', cpl:'cpl',
+                 lead_event:'lead_event', cpl_event:'cpl_event'};
   const sk = SORTS[_cdState.sort] || 'cost';
   // Ratio columns are meaningless on a campaign with a handful of users — a
   // single install that came back once is 100% RR D1. Rank those below every
   // campaign that has enough volume to be real, instead of letting them win.
-  const RATIO_SORTS = {cpi:'install', rr_d1:'d0_d1', save_ad_rate:'dau', cpl:'lead'};
+  const RATIO_SORTS = {cpi:'install', rr_d1:'d0_d1', save_ad_rate:'dau', cpl:'lead', cpl_event:'lead_event'};
   const denField = RATIO_SORTS[sk];
   const thin = r => denField ? !_cdEnough(r, denField) : false;
   rows.sort((a,b)=>{
@@ -2478,6 +2484,12 @@ function renderCampDetail() {
   // a full month of spend is not divided by a short month of leads. A one-day
   // mismatch moved Aug CPL by 11%, more than most differences people act on.
   const tCostLead = leadRows.reduce((s,r)=>s+(r.lead_cost!=null?r.lead_cost:(r.cost||0)),0);
+  // Lead EVENTS (lượt) blended the same way — cost that could have produced an
+  // event over the same window. Its own row set (a campaign can have event data
+  // but not user data, or vice versa) so the two blended costs stay independent.
+  const leadEvRows = rows.filter(r=>r.lead_event!=null);
+  const tLeadEv = leadEvRows.reduce((s,r)=>s+(r.lead_event||0),0);
+  const tCostLeadEv = leadEvRows.reduce((s,r)=>s+(r.lead_cost!=null?r.lead_cost:(r.cost||0)),0);
   const fmtVnd = v => v>=1e9?(v/1e9).toFixed(2)+'B ₫':v>=1e6?(v/1e6).toFixed(1)+'M ₫':Math.round(v).toLocaleString('en')+' ₫';
   const fmtNum = v => v==null?'—':v.toLocaleString('en');
   const fmtPct = v => v==null?'—':(v*100).toFixed(1)+'%';
@@ -2546,8 +2558,8 @@ function renderCampDetail() {
       .map(([m, r]) => [m, r, (D.month_cover||{})[m] || {}]);
     if (trimmed.length) {
       cplSub.textContent = trimmed.length===1
-        ? `Cost / Lead 7d · chỉ tính tới ${trimmed[0][1].lead_through || dm(trimmed[0][2].bq_through)}`
-        : 'Cost / Lead 7d · một số tháng chưa đủ ngày lead';
+        ? `Cost / User 7d · chỉ tính tới ${trimmed[0][1].lead_through || dm(trimmed[0][2].bq_through)}`
+        : 'Cost / User 7d · một số tháng chưa đủ ngày lead';
       cplSub.style.color = '#f59e0b';
       cplSub.title = trimmed.map(([m,r,c]) => {
           const upto = r.lead_through || dm(c.bq_through);
@@ -2559,11 +2571,17 @@ function renderCampDetail() {
         + '. Làm vậy để cost và lead cùng khoảng thời gian — chia cả tháng thì CPL '
         + 'sẽ cao hơn thực tế. Ô Cost bên trái vẫn là tổng chi thật.';
     } else {
-      cplSub.textContent = 'Cost / Lead 7d';
+      cplSub.textContent = 'Cost / User 7d';
       cplSub.style.color = '';
       cplSub.title = '';
     }
   }
+  // Lead EVENTS (lượt) + cost per event. Same blending window as Cost/User.
+  setTxt('kpi-cd-leadev', fmtNum(tLeadEv) + (leadEvRows.some(r=>r.lead_partial) ? '*' : ''));
+  setTxt('kpi-cd-leadev-sub', leadEvRows.length===rows.length
+    ? 'Lượt liên hệ trong 7 ngày'
+    : `Lượt LH 7 ngày · ${leadEvRows.length}/${rows.length} campaign có data`);
+  setTxt('kpi-cd-cple', tLeadEv?Math.round(tCostLeadEv/tLeadEv).toLocaleString('en')+' ₫':'—');
 
   // Two containers, deliberately. Every keystroke in the search box re-renders
   // this section, and rewriting #cdFilter wholesale would destroy the <input>
@@ -2604,13 +2622,13 @@ function renderCampDetail() {
     ${_cdChips('Tháng:','month',['all',...months],{all:'All Months'})}
     ${_cdChips('Channel:','channel',['all','FB','GG'],{all:'All'})}
     ${_cdChips('Vertical:','vertical',['all',...verts],{all:'All'})}
-    ${_cdChips('Sort:','sort',['cost','install','cpi','d0','rr_d1','save_ad_rate','lead','cpl'],
+    ${_cdChips('Sort:','sort',['cost','install','cpi','d0','rr_d1','save_ad_rate','lead','cpl','lead_event','cpl_event'],
         {cost:'Cost',install:'Install',cpi:'CPI',d0:'D0',rr_d1:'RR D1',save_ad_rate:'% Save',
-         lead:'Lead 7d',cpl:'Cost/Lead 7d'})}
+         lead:'Lead 7d',cpl:'Cost/User',lead_event:'Lead event',cpl_event:'Cost/Lead'})}
     <div style="font-size:10px;color:#9ca3af;padding-top:2px">
       Tỉ lệ <span style="color:#c7cbd1;font-weight:600">màu nhạt</span> = volume quá thấp để kết luận
       (CPI cần ≥${_CD_MIN.install} install · RR cần ≥${_CD_MIN.d0_d1} D0 đã đủ tuổi cohort · % Save cần ≥${_CD_MIN.dau} DAU
-      · Cost/Lead 7d cần ≥${_CD_MIN.lead} user liên hệ);
+      · Cost/User cần ≥${_CD_MIN.lead} user liên hệ · Cost/Lead cần ≥${_CD_MIN.lead_event} lượt liên hệ);
       khi sort theo tỉ lệ, các campaign này được xếp xuống cuối.
     </div>
   </div>`;
@@ -2760,6 +2778,16 @@ function renderCampDetail() {
     + 'sổ rộng hơn — đổi đơn vị ăn nhiều hơn đổi cửa sổ. Nguồn: user_1lead_7d của '
     + 'retention_mapping_activation_by_source_campaign, cùng cột mà mục 3 và 4 '
     + 'đang dùng — có đủ cả FB và GG.';
+  // The event counterpart of WHY_LEAD: LƯỢT, not người. A user who contacts 5
+  // sellers counts 5 here but 1 in "Lead 7d (user)". Comes from a different,
+  // per-user table because the mapping table has no summable 7-day event count.
+  const WHY_LEAD_EVENT = 'Tổng số LƯỢT liên hệ người bán trong 7 NGÀY kể từ ngày '
+    + 'cài, cộng theo khoảng thời gian đang xem. Đơn vị là lượt, không phải người: '
+    + 'một user liên hệ 5 lần tính 5 (cột "Lead 7d (user)" bên trái tính 1). Nguồn: '
+    + 'SUM(lead_7d) của retention_activation_core_event_by_source_channel — bảng ở '
+    + 'grain per-user nên lead_7d là số đếm (INTEGER) cộng được, khác lead_7d ở bảng '
+    + 'mapping vốn là số trung bình. Cùng cửa sổ 7 ngày và cùng cách trim cost như '
+    + 'Cost/User, nên hai cột chi phí so sánh được. Lưu ý còn lẫn user bot/outlier.';
   // The 7-day window means the newest cohorts are still accumulating: a user who
   // installed 3 days ago has had 3 of their 7 days. The star says the number is
   // real but not final, and it disappears on its own once the cohort matures —
@@ -2791,6 +2819,19 @@ function renderCampDetail() {
       + `cùng khoảng thời gian — chia cả tháng thì CPL sẽ cao hơn thực tế. `
       + `Cột Cost vẫn là tổng chi thật. ${WHY_LEAD}`;
   };
+  // Cost per lead EVENT shares the same trimmed window as cplWindow (both divide
+  // r.lead_cost), so only the metric explanation at the end differs.
+  const cplEventWindow = r => {
+    if (r.lead_cost == null) return `Cost / Lead event 7d trong kỳ đang xem. ${WHY_LEAD_EVENT}`;
+    const c = (D.month_cover||{})[r.month] || {};
+    const upto = r.lead_through || _dmy(c.bq_through);
+    const why = r.lead_partial
+      ? `user cài sau ngày đó chưa đủ 7 ngày để liên hệ`
+      : `bảng lead mới có data tới đó`;
+    return `Cost chạy tới ${_dmy(c.through)} nhưng lead chỉ tính tới ${upto} `
+      + `(${why}). Cost/Lead vì vậy chỉ chia phần cost tới ${upto} `
+      + `(${fmtVnd(r.lead_cost)} thay vì ${fmtVnd(r.cost||0)}). ${WHY_LEAD_EVENT}`;
+  };
   const tdL = `style="text-align:left"`;
   const head = `<tr>
     <th style="text-align:left">#</th>
@@ -2807,7 +2848,9 @@ function renderCampDetail() {
     <th style="text-align:left">Save ad in D0</th>
     <th style="text-align:left">% Save ad</th>
     <th style="text-align:left" title="${WHY_LEAD}">Lead 7d (user)</th>
-    <th style="text-align:left" title="Chi phí để có MỘT NGƯỜI liên hệ trong 7 ngày. ${WHY_LEAD}">Cost/Lead 7d</th>
+    <th style="text-align:left" title="Chi phí để có MỘT NGƯỜI liên hệ trong 7 ngày = cost / Lead 7d (user). ${WHY_LEAD}">Cost/User</th>
+    <th style="text-align:left" title="${WHY_LEAD_EVENT}">Lead event 7d</th>
+    <th style="text-align:left" title="Chi phí trên mỗi LƯỢT liên hệ trong 7 ngày = cost / Lead event 7d. ${WHY_LEAD_EVENT}">Cost/Lead</th>
   </tr>`;
   const body = pageRows.map((r,i)=>`<tr>
     <td ${tdL} style="color:#9ca3af;font-size:11px;text-align:left">${offset+i+1}</td>
@@ -2834,9 +2877,16 @@ function renderCampDetail() {
       ? `<td ${LOW} title="${r.lead==null?'Không có data BigQuery cho campaign này':'Campaign này chưa có user nào liên hệ trong kỳ'}">—</td>`
       : (_cdEnough(r,'lead')
         ? `<td ${tdL} title="${cplWindow(r)}">${r.cpl.toLocaleString('en')+' ₫'}${LEAD_STAR(r)}</td>`
-        : `<td ${LOW} title="Chỉ ${r.lead||0} user liên hệ — Cost/Lead 7d không đáng tin. ${cplWindow(r)}">${r.cpl.toLocaleString('en')+' ₫'}</td>`)}
+        : `<td ${LOW} title="Chỉ ${r.lead||0} user liên hệ — Cost/User không đáng tin. ${cplWindow(r)}">${r.cpl.toLocaleString('en')+' ₫'}</td>`)}
+    ${r.lead_event==null ? `<td ${LOW} title="Không có data lead event cho campaign này">—</td>`
+      : `<td ${tdL} title="${WHY_LEAD_EVENT}">${fmtNum(r.lead_event)}${LEAD_STAR(r)}</td>`}
+    ${r.cpl_event==null
+      ? `<td ${LOW} title="${r.lead_event==null?'Không có data lead event cho campaign này':'Campaign này chưa có lượt liên hệ nào trong kỳ'}">—</td>`
+      : (_cdEnough(r,'lead_event')
+        ? `<td ${tdL} title="${cplEventWindow(r)}">${r.cpl_event.toLocaleString('en')+' ₫'}${LEAD_STAR(r)}</td>`
+        : `<td ${LOW} title="Chỉ ${r.lead_event||0} lượt liên hệ — Cost/Lead không đáng tin. ${cplEventWindow(r)}">${r.cpl_event.toLocaleString('en')+' ₫'}</td>`)}
   </tr>`).join('');
-  tableEl.innerHTML = `<thead>${head}</thead><tbody>${body||'<tr><td colspan="15" style="text-align:center;color:#9ca3af;padding:20px">Không có campaign nào khớp filter</td></tr>'}</tbody>`;
+  tableEl.innerHTML = `<thead>${head}</thead><tbody>${body||'<tr><td colspan="17" style="text-align:center;color:#9ca3af;padding:20px">Không có campaign nào khớp filter</td></tr>'}</tbody>`;
 
   const totalPages = Math.max(1, Math.ceil(total/PAGE));
   const btn = (disabled, label, target) =>
